@@ -1,0 +1,1142 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>AI Customer Support Intelligence</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: "Segoe UI", Arial, sans-serif;
+            background: #f5f6f8;
+            color: #18243a;
+            line-height: 1.6;
+        }
+
+        /* =========================
+           TOP BAR
+        ========================== */
+
+        .top-bar {
+            background: #121f35;
+            color: white;
+            height: 42px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 7%;
+            font-size: 13px;
+        }
+
+        .top-left {
+            display: flex;
+            gap: 18px;
+            align-items: center;
+        }
+
+        .top-left span {
+            opacity: 0.9;
+        }
+
+        .top-right {
+            display: flex;
+            gap: 22px;
+            align-items: center;
+        }
+
+        /* =========================
+           NAVIGATION
+        ========================== */
+
+        .navbar {
+            height: 76px;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 7%;
+            border-bottom: 1px solid #e6e8ec;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .brand-icon {
+            width: 45px;
+            height: 45px;
+            border-radius: 10px;
+            background: #b52a2a;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            font-weight: 800;
+        }
+
+        .brand-text {
+            font-size: 23px;
+            font-weight: 700;
+            color: #16243b;
+        }
+
+        .brand-text span {
+            color: #b52a2a;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 34px;
+            font-size: 14px;
+            font-weight: 600;
+            color: #27354d;
+        }
+
+        .nav-links span {
+            cursor: default;
+        }
+
+        .status-pill {
+            background: #f3f7f5;
+            color: #26734d;
+            border: 1px solid #d8eadf;
+            padding: 9px 15px;
+            border-radius: 30px;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .status-dot {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            background: #35a66b;
+            border-radius: 50%;
+            margin-right: 7px;
+        }
+
+        /* =========================
+           HERO
+        ========================== */
+
+        .hero {
+            background: linear-gradient(120deg,
+                    #7a1f3d 0%,
+                    #8e2936 42%,
+                    #1b2a55 100%);
+
+            color: white;
+            padding: 65px 7% 72px;
+        }
+
+        .hero-content {
+            max-width: 1180px;
+            margin: auto;
+            display: grid;
+            grid-template-columns: 1.2fr 0.8fr;
+            gap: 60px;
+            align-items: center;
+        }
+
+        .hero-label {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.13);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            padding: 7px 14px;
+            border-radius: 30px;
+            font-size: 12px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+        }
+
+        .hero h1 {
+            font-size: 48px;
+            line-height: 1.12;
+            margin-bottom: 22px;
+            font-weight: 750;
+        }
+
+        .hero h1 span {
+            color: #ffd5d5;
+        }
+
+        .hero p {
+            font-size: 18px;
+            max-width: 650px;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 30px;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 9px;
+            background: white;
+            color: #18243a;
+            padding: 13px 20px;
+            border-radius: 8px;
+            font-weight: 650;
+            font-size: 14px;
+        }
+
+        .hero-badge .dot {
+            width: 9px;
+            height: 9px;
+            border-radius: 50%;
+            background: #36a66b;
+        }
+
+        /* =========================
+           HERO PANEL
+        ========================== */
+
+        .hero-panel {
+            background: rgba(255, 255, 255, 0.12);
+            border: 1px solid rgba(255, 255, 255, 0.22);
+            backdrop-filter: blur(12px);
+            border-radius: 18px;
+            padding: 28px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.18);
+        }
+
+        .hero-panel-title {
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            opacity: 0.75;
+            margin-bottom: 20px;
+        }
+
+        .hero-panel-main {
+            font-size: 27px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .hero-panel-description {
+            font-size: 14px;
+            opacity: 0.8;
+        }
+
+        .mini-line {
+            height: 1px;
+            background: rgba(255, 255, 255, 0.2);
+            margin: 22px 0;
+        }
+
+        .hero-feature {
+            display: flex;
+            justify-content: space-between;
+            padding: 9px 0;
+            font-size: 14px;
+        }
+
+        .hero-feature span:last-child {
+            font-weight: 700;
+        }
+
+        /* =========================
+           MAIN CONTAINER
+        ========================== */
+
+        .container {
+            max-width: 1180px;
+            margin: 45px auto;
+            padding: 0 25px;
+        }
+
+        /* =========================
+           SECTION HEADER
+        ========================== */
+
+        .section-heading {
+            margin-bottom: 22px;
+        }
+
+        .section-heading small {
+            color: #b52a2a;
+            font-weight: 750;
+            text-transform: uppercase;
+            letter-spacing: 1.4px;
+            font-size: 12px;
+        }
+
+        .section-heading h2 {
+            font-size: 29px;
+            color: #16243b;
+            margin-top: 5px;
+        }
+
+        .section-heading p {
+            color: #667085;
+            margin-top: 5px;
+            font-size: 14px;
+        }
+
+        /* =========================
+           QUERY CARD
+        ========================== */
+
+        .card {
+            background: white;
+            border-radius: 16px;
+            padding: 30px;
+            margin-bottom: 32px;
+            border: 1px solid #e7e9ed;
+            box-shadow: 0 8px 25px rgba(19, 34, 57, 0.06);
+        }
+
+        .query-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .query-title {
+            display: flex;
+            align-items: center;
+            gap: 13px;
+        }
+
+        .query-icon {
+            width: 43px;
+            height: 43px;
+            background: #f9eaea;
+            color: #b52a2a;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            font-weight: 700;
+        }
+
+        .query-title h3 {
+            color: #18243a;
+            font-size: 20px;
+        }
+
+        .query-title p {
+            color: #7b8494;
+            font-size: 12px;
+        }
+
+        textarea {
+            width: 100%;
+            min-height: 115px;
+            padding: 17px;
+            border: 1px solid #d9dde5;
+            border-radius: 10px;
+            resize: vertical;
+            font-family: inherit;
+            font-size: 15px;
+            color: #18243a;
+            background: #fafbfc;
+            outline: none;
+            transition: 0.2s;
+        }
+
+        textarea:focus {
+            border-color: #b52a2a;
+            box-shadow: 0 0 0 3px rgba(181, 42, 42, 0.08);
+            background: white;
+        }
+
+        textarea::placeholder {
+            color: #9aa2af;
+        }
+
+        .query-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 15px;
+        }
+
+        .example-text {
+            font-size: 12px;
+            color: #89919e;
+        }
+
+        button {
+            border: none;
+            border-radius: 8px;
+            padding: 12px 23px;
+            background: #b52a2a;
+            color: white;
+            font-size: 14px;
+            font-weight: 650;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        button:hover {
+            background: #8e2020;
+            transform: translateY(-1px);
+            box-shadow: 0 7px 16px rgba(181, 42, 42, 0.2);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        .result {
+            margin-top: 22px;
+            padding: 20px;
+            background: #f7f8fa;
+            border: 1px solid #e5e7eb;
+            border-left: 4px solid #b52a2a;
+            border-radius: 9px;
+            white-space: pre-wrap;
+            color: #27354d;
+            font-size: 14px;
+        }
+
+        /* =========================
+           ANOMALY HEADER
+        ========================== */
+
+        .anomaly-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 22px;
+        }
+
+        .anomaly-title {
+            display: flex;
+            align-items: center;
+            gap: 13px;
+        }
+
+        .anomaly-icon {
+            width: 43px;
+            height: 43px;
+            background: #fff0f0;
+            color: #b52a2a;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+
+        .anomaly-title h3 {
+            font-size: 20px;
+        }
+
+        .anomaly-title p {
+            color: #7b8494;
+            font-size: 12px;
+        }
+
+        /* =========================
+           ANOMALY ITEMS
+        ========================== */
+
+        .anomaly-section {
+            margin-top: 25px;
+        }
+
+        .anomaly-section h3 {
+            color: #18243a;
+            font-size: 17px;
+            margin: 28px 0 14px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #e8eaee;
+        }
+
+        .anomaly-item {
+            padding: 18px 20px;
+            margin-bottom: 12px;
+            background: #fff;
+            border: 1px solid #eadcdc;
+            border-left: 4px solid #b52a2a;
+            border-radius: 9px;
+            box-shadow: 0 4px 12px rgba(30, 30, 30, 0.04);
+        }
+
+        .anomaly-item strong {
+            color: #8e2020;
+            font-size: 15px;
+        }
+
+        .anomaly-item p {
+            margin-top: 5px;
+            color: #536174;
+            font-size: 13px;
+        }
+
+        .anomaly-item span {
+            font-weight: 600;
+            color: #26364e;
+        }
+
+        /* =========================
+           FOOTER
+        ========================== */
+
+        footer {
+            background: #121f35;
+            color: white;
+            margin-top: 70px;
+            padding: 32px 7%;
+        }
+
+        .footer-content {
+            max-width: 1180px;
+            margin: auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .footer-brand {
+            font-weight: 700;
+            font-size: 15px;
+        }
+
+        .footer-text {
+            color: #aeb7c6;
+            font-size: 12px;
+        }
+
+        /* =========================
+           ERROR
+        ========================== */
+
+        .error {
+            color: #b00020;
+            font-weight: 600;
+        }
+
+        /* =========================
+           LOADING
+        ========================== */
+
+        .loading {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #667085;
+        }
+
+        .spinner {
+            width: 16px;
+            height: 16px;
+            border: 2px solid #ddd;
+            border-top: 2px solid #b52a2a;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* =========================
+           RESPONSIVE
+        ========================== */
+
+        @media (max-width: 850px) {
+
+            .top-bar {
+                padding: 0 20px;
+            }
+
+            .top-right {
+                display: none;
+            }
+
+            .navbar {
+                padding: 0 20px;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .hero {
+                padding: 45px 20px;
+            }
+
+            .hero-content {
+                grid-template-columns: 1fr;
+                gap: 35px;
+            }
+
+            .hero h1 {
+                font-size: 37px;
+            }
+
+            .container {
+                margin-top: 30px;
+                padding: 0 15px;
+            }
+
+            .card {
+                padding: 20px;
+            }
+
+            .query-footer {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+
+            .footer-content {
+                flex-direction: column;
+                gap: 10px;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- =========================
+         TOP BAR
+    ========================== -->
+
+    <div class="top-bar">
+
+        <div class="top-left">
+            <span>AI Engineering System</span>
+            <span>•</span>
+            <span>Customer Support Intelligence</span>
+        </div>
+
+        <div class="top-right">
+            <span>FastAPI</span>
+            <span>Groq AI</span>
+            <span>Python</span>
+        </div>
+
+    </div>
+
+
+    <!-- =========================
+         NAVIGATION
+    ========================== -->
+
+    <nav class="navbar">
+
+        <div class="brand">
+
+            <div class="brand-icon">
+                AI
+            </div>
+
+            <div class="brand-text">
+                Support<span>IQ</span>
+            </div>
+
+        </div>
+
+        <div class="nav-links">
+            <span>Dashboard</span>
+            <span>Ticket Analytics</span>
+            <span>AI Query</span>
+            <span>Anomalies</span>
+
+            <div class="status-pill">
+                <span class="status-dot"></span>
+                System Online
+            </div>
+        </div>
+
+    </nav>
+
+
+    <!-- =========================
+         HERO
+    ========================== -->
+
+    <section class="hero">
+
+        <div class="hero-content">
+
+            <div>
+
+                <div class="hero-label">
+                    AI-Powered Support Analytics
+                </div>
+
+                <h1>
+                    Turn Support Data Into
+                    <span>Actionable Intelligence.</span>
+                </h1>
+
+                <p>
+                    Ask questions about customer support tickets in natural
+                    language and automatically identify operational anomalies.
+                </p>
+
+                <div class="hero-badge">
+                    <span class="dot"></span>
+                    AI analytics system is ready
+                </div>
+
+            </div>
+
+
+            <div class="hero-panel">
+
+                <div class="hero-panel-title">
+                    Intelligence Engine
+                </div>
+
+                <div class="hero-panel-main">
+                    Natural Language Analytics
+                </div>
+
+                <div class="hero-panel-description">
+                    Query support-ticket data using conversational questions.
+                </div>
+
+                <div class="mini-line"></div>
+
+                <div class="hero-feature">
+                    <span>Data Source</span>
+                    <span>CSV</span>
+                </div>
+
+                <div class="hero-feature">
+                    <span>AI Engine</span>
+                    <span>Groq</span>
+                </div>
+
+                <div class="hero-feature">
+                    <span>API</span>
+                    <span>FastAPI</span>
+                </div>
+
+                <div class="hero-feature">
+                    <span>Anomaly Detection</span>
+                    <span>Enabled</span>
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================
+         MAIN CONTENT
+    ========================== -->
+
+    <main class="container">
+
+
+        <!-- QUERY SECTION -->
+
+        <div class="section-heading">
+            <small>Natural Language Interface</small>
+            <h2>Ask Your Support Data</h2>
+            <p>
+                Ask questions about tickets, agents, ratings, priorities and
+                support performance.
+            </p>
+        </div>
+
+
+        <div class="card">
+
+            <div class="query-header">
+
+                <div class="query-title">
+
+                    <div class="query-icon">
+                        ?
+                    </div>
+
+                    <div>
+                        <h3>Ask a Question</h3>
+                        <p>Powered by AI and ticket analytics</p>
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <textarea id="question" placeholder="Example: How many tickets are currently open?"></textarea>
+
+
+            <div class="query-footer">
+
+                <div class="example-text">
+                    Try: "What is the average customer rating for Technical category tickets?"
+                </div>
+
+                <button onclick="askQuestion()">
+                    Ask Question →
+                </button>
+
+            </div>
+
+
+            <div id="queryResult" class="result">
+                Your AI-generated answer will appear here.
+            </div>
+
+        </div>
+
+
+
+        <!-- ANOMALY SECTION -->
+
+        <div class="section-heading">
+            <small>Operational Monitoring</small>
+            <h2>Support Anomaly Detection</h2>
+            <p>
+                Detect unusually long resolution times and unresolved
+                high-priority tickets.
+            </p>
+        </div>
+
+
+        <div class="card">
+
+            <div class="anomaly-header">
+
+                <div class="anomaly-title">
+
+                    <div class="anomaly-icon">
+                        !
+                    </div>
+
+                    <div>
+                        <h3>Anomaly Detection</h3>
+                        <p>Automated operational risk analysis</p>
+                    </div>
+
+                </div>
+
+                <button onclick="detectAnomalies()">
+                    Detect Anomalies →
+                </button>
+
+            </div>
+
+
+            <div id="anomalyResult" class="result">
+                Click "Detect Anomalies" to analyze the support-ticket dataset.
+            </div>
+
+        </div>
+
+    </main>
+
+
+    <!-- =========================
+         FOOTER
+    ========================== -->
+
+    <footer>
+
+        <div class="footer-content">
+
+            <div class="footer-brand">
+                AI Customer Support Intelligence
+            </div>
+
+            <div class="footer-text">
+                Built with Python • FastAPI • Groq • REST API
+            </div>
+
+        </div>
+
+    </footer>
+
+
+
+    <!-- =========================
+         JAVASCRIPT
+    ========================== -->
+
+    <script>
+
+        async function askQuestion() {
+
+            const question =
+                document.getElementById("question").value;
+
+            const result =
+                document.getElementById("queryResult");
+
+
+            if (!question.trim()) {
+
+                result.innerHTML =
+                    '<span class="error">Please enter a question.</span>';
+
+                return;
+            }
+
+
+            result.innerHTML = `
+                <div class="loading">
+                    <div class="spinner"></div>
+                    AI is analyzing your question...
+                </div>
+            `;
+
+
+            try {
+
+                const response = await fetch("/query", {
+
+                    method: "POST",
+
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+
+                    body: JSON.stringify({
+                        question: question
+                    })
+
+                });
+
+
+                const data = await response.json();
+
+
+                if (!response.ok) {
+
+                    throw new Error(
+                        data.detail || "Request failed"
+                    );
+
+                }
+
+
+                result.innerText = data.answer;
+
+
+            } catch (error) {
+
+                result.innerHTML =
+                    '<span class="error">Error: ' +
+                    error.message +
+                    '</span>';
+
+            }
+
+        }
+
+
+
+        async function detectAnomalies() {
+
+            const result =
+                document.getElementById("anomalyResult");
+
+
+            result.innerHTML = `
+                <div class="loading">
+                    <div class="spinner"></div>
+                    Analyzing ticket anomalies...
+                </div>
+            `;
+
+
+            try {
+
+                const response =
+                    await fetch("/anomalies");
+
+
+                const data =
+                    await response.json();
+
+
+                if (!response.ok) {
+
+                    throw new Error(
+                        "Failed to detect anomalies"
+                    );
+
+                }
+
+
+                let html = "";
+
+                const longResolution =
+                    data.long_resolution_times || [];
+
+                const highPriority =
+                    data.unresolved_high_priority || [];
+
+
+
+                /* =========================
+                   LONG RESOLUTION
+                ========================== */
+
+                html += `
+                    <div class="anomaly-section">
+
+                        <h3>
+                            Abnormally Long Resolution Times
+                            (${longResolution.length})
+                        </h3>
+                `;
+
+
+                if (longResolution.length === 0) {
+
+                    html += `
+                        <p>No anomalies found.</p>
+                    `;
+
+                } else {
+
+                    longResolution.forEach(item => {
+
+                        html += `
+
+                            <div class="anomaly-item">
+
+                                <strong>
+                                    ${item.ticket_id}
+                                </strong>
+
+                                <p>
+                                    <span>Priority:</span>
+                                    ${item.priority}
+                                </p>
+
+                                <p>
+                                    <span>Resolution Time:</span>
+                                    ${item.resolution_time_hrs} hours
+                                </p>
+
+                                <p>
+                                    <span>Threshold:</span>
+                                    ${item.threshold_hrs} hours
+                                </p>
+
+                                <p>
+                                    <span>Reason:</span>
+                                    ${item.reason}
+                                </p>
+
+                            </div>
+
+                        `;
+
+                    });
+
+                }
+
+
+                html += `</div>`;
+
+
+
+                /* =========================
+                   HIGH PRIORITY
+                ========================== */
+
+                html += `
+
+                    <div class="anomaly-section">
+
+                        <h3>
+                            Unresolved High-Priority Tickets
+                            (${highPriority.length})
+                        </h3>
+
+                `;
+
+
+                if (highPriority.length === 0) {
+
+                    html += `
+                        <p>No anomalies found.</p>
+                    `;
+
+                } else {
+
+                    highPriority.forEach(item => {
+
+                        html += `
+
+                            <div class="anomaly-item">
+
+                                <strong>
+                                    ${item.ticket_id}
+                                </strong>
+
+                                <p>
+                                    <span>Priority:</span>
+                                    ${item.priority}
+                                </p>
+
+                                <p>
+                                    <span>Status:</span>
+                                    ${item.status}
+                                </p>
+
+                                <p>
+                                    <span>Age:</span>
+                                    ${item.age_hours} hours
+                                </p>
+
+                                <p>
+                                    <span>Reason:</span>
+                                    ${item.reason}
+                                </p>
+
+                            </div>
+
+                        `;
+
+                    });
+
+                }
+
+
+                html += `</div>`;
+
+
+                result.innerHTML = html;
+
+
+            } catch (error) {
+
+                result.innerHTML =
+                    '<span class="error">Error: ' +
+                    error.message +
+                    '</span>';
+
+            }
+
+        }
+
+    </script>
+
+</body>
+
+</html>
