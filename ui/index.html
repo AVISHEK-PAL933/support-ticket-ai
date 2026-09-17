@@ -8,17 +8,85 @@
     <title>AI Customer Support Intelligence</title>
 
     <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
+        * .anomaly-section {
+            background: #ffffff;
+            border: 1px solid #e5e7eb;
+            border-radius: 14px;
+            margin-top: 20px;
+            overflow: hidden;
         }
 
-        body {
-            font-family: "Segoe UI", Arial, sans-serif;
-            background: #f5f6f8;
-            color: #18243a;
-            line-height: 1.6;
+        .anomaly-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 22px 24px;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .anomaly-header h3 {
+            margin: 0;
+            font-size: 20px;
+            color: #102a43;
+        }
+
+        .anomaly-header p {
+            margin: 6px 0 0;
+            color: #6b7280;
+            font-size: 14px;
+        }
+
+        .anomaly-count {
+            background: #fee2e2;
+            color: #b91c1c;
+            font-weight: 700;
+            padding: 8px 14px;
+            border-radius: 20px;
+        }
+
+        .anomaly-table {
+            width: 100%;
+        }
+
+        .anomaly-row {
+            display: grid;
+            grid-template-columns: 1.2fr 1fr 1fr 1.3fr 1.2fr;
+            align-items: center;
+            padding: 14px 24px;
+            border-bottom: 1px solid #f1f5f9;
+            font-size: 14px;
+        }
+
+        .anomaly-row:last-child {
+            border-bottom: none;
+        }
+
+        .anomaly-table-header {
+            background: #f8fafc;
+            color: #64748b;
+            font-weight: 600;
+            font-size: 13px;
+        }
+
+        .ticket-id {
+            font-weight: 700;
+            color: #b91c1c;
+        }
+
+        .priority-badge {
+            display: inline-block;
+            width: fit-content;
+            background: #fef2f2;
+            color: #b91c1c;
+            padding: 5px 10px;
+            border-radius: 6px;
+            font-weight: 600;
+        }
+
+        .no-anomaly {
+            padding: 30px 24px;
+            color: #64748b;
+            text-align: center;
         }
 
         /* =========================
@@ -461,22 +529,27 @@
         }
 
         .anomaly-item {
-            padding: 18px 20px;
-            margin-bottom: 12px;
-            background: #fff;
-            border: 1px solid #eadcdc;
-            border-left: 4px solid #b52a2a;
-            border-radius: 9px;
-            box-shadow: 0 4px 12px rgba(30, 30, 30, 0.04);
+            display: grid;
+            grid-template-columns: 1.2fr 1fr 1fr 1fr 1fr;
+            align-items: center;
+            gap: 20px;
+            padding: 16px 18px;
+            margin-bottom: 10px;
+            background: #ffffff;
+            border: 1px solid #e5e7eb;
+            border-left: 3px solid #b52a2a;
+            border-radius: 8px;
+            box-shadow: 0 2px 6px rgba(30, 30, 30, 0.03);
         }
 
         .anomaly-item strong {
             color: #8e2020;
-            font-size: 15px;
+            font-size: 14px;
+            font-weight: 700;
         }
 
         .anomaly-item p {
-            margin-top: 5px;
+            margin: 0;
             color: #536174;
             font-size: 13px;
         }
@@ -995,13 +1068,72 @@
                 ========================== */
 
                 html += `
-                    <div class="anomaly-section">
+    <div class="anomaly-section">
+        <div class="anomaly-header">
+            <div>
+                <h3>Abnormally Long Resolution Times</h3>
+                <p>Tickets with unusually high resolution times</p>
+            </div>
+            <span class="anomaly-count">${longResolution.length}</span>
+        </div>
+`;
 
-                        <h3>
-                            Abnormally Long Resolution Times
-                            (${longResolution.length})
-                        </h3>
-                `;
+                if (longResolution.length === 0) {
+
+                    html += `
+        <div class="no-anomaly">
+            No abnormal resolution times detected.
+        </div>
+    `;
+
+                } else {
+
+                    html += `
+        <div class="anomaly-table">
+            <div class="anomaly-row anomaly-table-header">
+                <span>Ticket ID</span>
+                <span>Priority</span>
+                <span>Status</span>
+                <span>Resolution Time</span>
+                <span>Threshold</span>
+            </div>
+    `;
+
+                    longResolution.forEach(anomaly => {
+
+                        html += `
+            <div class="anomaly-row">
+                <span class="ticket-id">
+                    ${anomaly.ticket_id}
+                </span>
+
+                <span class="priority-badge">
+                    ${anomaly.priority}
+                </span>
+
+                <span>
+                    ${anomaly.status}
+                </span>
+
+                <span>
+                    ${anomaly.resolution_time_hrs} hrs
+                </span>
+
+                <span>
+                    ${anomaly.threshold_hrs} hrs
+                </span>
+            </div>
+        `;
+                    });
+
+                    html += `
+        </div>
+    `;
+                }
+
+                html += `
+    </div>
+`;
 
 
                 if (longResolution.length === 0) {

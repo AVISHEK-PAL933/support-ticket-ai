@@ -1,13 +1,14 @@
 import json
+
 from .data_service import TicketDataService
 from .groq_service import GroqService
-
+from .anomaly_service import AnomalyService
 
 class QueryService:
-
     def __init__(self):
         self.data_service = TicketDataService()
         self.groq_service = GroqService()
+        self.anomaly_service = AnomalyService()
 
     def understand_question(self, question):
         """
@@ -55,8 +56,20 @@ Allowed operations:
    JSON:
    {{"operation": "critical_not_resolved", "hours": 12}}
 
-5. unknown
+5. resolution_anomalies
+
+Use this when the user asks about anomalies, abnormal resolution times,
+unusually long resolution times, or resolution-time outliers.
+
+Example: "Are there any anomalies in resolution times this week?"
+
+JSON:
+{{"operation": "resolution_anomalies"}}
+
+6. unknown
+
    If the question does not match the available operations:
+
    JSON:
    {{"operation": "unknown"}}
 
@@ -168,6 +181,20 @@ User question:
                     f"{hours} hours to resolve."
                 ),
                 "data": tickets
+            }
+
+        if operation == "resolution_anomalies":
+
+            anomalies = self.anomaly_service.detect_long_resolution_times()
+
+            return {
+                "question": question,
+                "operation": operation,
+                "answer": (
+                    f"Found {len(anomalies)} tickets with abnormally "
+                    f"long resolution times."
+                ),
+                "data": anomalies
             }
 
         return {
